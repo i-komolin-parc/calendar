@@ -6,9 +6,17 @@
 class AjaxController extends CController
 {
 	/**
-	 * Index action is the default action in a controller.
+	 * Action is the add new event
 	 */
-	public function actionIndex()
+	public function actionAddEvent()
+	{
+
+	}
+	
+	/**
+	 * Action is the add new event
+	 */
+	public function actionEditEvent()
 	{
 
 	}

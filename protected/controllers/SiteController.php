@@ -10,6 +10,16 @@ class SiteController extends CController
 	 */
 	public function actionIndex()
 	{
-
+		$user = Yii::app()->user;
+		if ($user->isGuest) {
+			$this->redirect('/user/login');
+		}
+		
+		$type = new EventType();
+		//Output in display index page with calendar
+		$this->render('index', array(
+			'username' => $user->name,
+			'types' => $type->getAllTypes()
+		));
 	}
 }
