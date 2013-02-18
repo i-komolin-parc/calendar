@@ -31,10 +31,31 @@ class AjaxController extends CController {
 	}
 
 	/**
-	 * Action is the add new event
+	 * Action is the adit event
 	 */
 	public function actionEditEvent() 
 	{
 	
+	}
+	
+	/**
+	 * Action get all events for current user
+	 */
+	public function actionGetEvents() 
+	{
+		$result = array();
+		$events = Event::model()->findAll('username=:username', array(':username' => Yii::app()->user->name));
+		if (!empty($events)) {
+			foreach($events as $event) {
+				$result[] = array(
+					'id' => $event->id,
+					'title' => $event->title,
+					'start' => date('Y-m-d H:i', $event->time_from),
+					'end' => date('Y-m-d H:i', $event->time_to),
+				);
+			}
+		}
+
+		print json_encode($result);
 	}
 }

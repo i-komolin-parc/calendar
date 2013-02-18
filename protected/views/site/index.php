@@ -13,6 +13,7 @@
 			header: {
 				right: 'prev,next',
 			},
+			events: '/ajax/GetEvents',
 			contentHeight: 2000,
 			firstDay: 1,
 			axisFormat: 'HH:mm',
