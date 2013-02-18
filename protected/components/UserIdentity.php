@@ -5,12 +5,12 @@
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class UserIdentity extends CUserIdentity
-{
+class UserIdentity extends CUserIdentity {
+
 	/**
 	 * Validates the username and password
 	 */
-	public function authenticate()
+	public function authenticate() 
 	{
 		$user = User::model()->findByAttributes(array('name' => $this->username));
 		if ($user === null) {

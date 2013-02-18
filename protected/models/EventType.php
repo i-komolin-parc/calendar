@@ -14,7 +14,8 @@ class EventType
 	/**
 	 * @return arr All event types
 	 */
-	public function getAllTypes() {
+	public function getAllTypes() 
+	{
 		return $this->types;
 	}
 }
