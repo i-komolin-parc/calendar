@@ -13,18 +13,28 @@
 			header: {
 				right: 'prev,next',
 			},
+			contentHeight: 2000,
+			firstDay: 1,
+			axisFormat: 'HH:mm',
 			defaultView: 'agendaWeek',
 			selectable: true,
 			selectHelper: true,
 			editable: true,
 			select: function(start, end) {
-				console.log();
+				var eventDate = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate();
+				var startHours = start.getHours();
+				var startMinutes = start.getMinutes();
+				var endHours = end.getHours();
+				var endMinutes = end.getMinutes();
+				
+				$('#ModalLabel').html('Event on ' + eventDate);
+				$('#EventTimeFrom').val((startHours > 10 ? '' : '0') + startHours + ':' + (startMinutes > 10 ? '' : '0') + startMinutes);
+				$('#EventTimeTo').val((endHours > 10 ? '' : '0') + endHours + ':' + (endMinutes > 10 ? '' : '0') + endMinutes);
 				$('#EventEdit').modal('show');
 				$('#SaveLink').click(function() {
 					options = {
-						'timeTo': start,
-						'timeFrom': end,
-						'username': '<?php print $username ?>',
+						'timeFrom': eventDate + ' ' + $('#EventTimeFrom').val(),
+						'timeTo': eventDate + ' ' + $('#EventTimeTo').val(),
 						'type': $('#EventType  option:selected').val(),
 						'title': $('#EventTitle').val(),
 						'description': $('#EventDescription').val(),
@@ -34,14 +44,19 @@
 						url: '/ajax/AddEvent',
 						type: 'post',
 						data: options,
-						success: function (result) {
-							//handler result
+						success: function () {
+							$('#EventEdit').modal('hide');
 						}
 					});
 				});
 			},
 		});
 	});
+	
+	function fill(n, glue){
+		return new Array(n+1).join(glue);
+	}
+
 </script>
 <div class="container">
 	<ul class="breadcrumb">
@@ -53,9 +68,12 @@
 	<div id="EventEdit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">Event</h3>
+			<h3 id="ModalLabel"></h3>
 		</div>
 		<div class="modal-body">
+			<input id="EventTimeFrom" type="time" style="width:60px"/> 
+			<input id="EventTimeTo" type="time" style="width:60px"/>
+			<br />
 			<select id="EventType">
 				<?php foreach($types as $key => $type) : ?>
 					<option value="<?php print $key ?>"><?php print $type ?></option>
